@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
-const PORT = process.env.PORT || 2000
+const port = process.env.PORT || 2000;
 // const paths = require('../uploads')
 
 //routes
@@ -22,13 +22,14 @@ const adminOrderRoute = require("./routes/admin/order.routes");
 //environment variable or constant
 env.config();
 
+mongoose.set("strictQuery", false);
 mongoose
   .connect(
     `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.lwpcgsr.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
+      // useCreateIndex: true,
       // useFindAndModify: false
     }
   )
@@ -55,9 +56,12 @@ app.use("/api", adminOrderRoute);
 //   console.log(`Server is running on port ${process.env.PORT}`);
 // });
 
-
+ 
 // newly added 
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+app.listen(port,()=>{
+  console.log("Server is running on port " + port)
+})
+
+

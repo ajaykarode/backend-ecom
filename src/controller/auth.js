@@ -27,6 +27,24 @@ exports.signup = (req, res) => {
       username: shortid.generate(),
     });
 
+    // _user.save((error, data) => {
+    //   if (error) {
+    //     return res.status(400).json({
+    //       message: "something went wrong",
+    //     });
+    //   }
+
+    //   if (user) {
+    //     const token = generateJwtToken(user._id, user.role);
+    //     const { _id, firstName, lastName, email, role, fullName } = user;
+    //     // return res.status(201).json({
+    //     //   token,
+    //     //   user: { _id, firstName, lastName, email, role, fullName },
+    //     // });
+    //     return res.status(201).json("user created");
+    //   }
+    // });
+
     _user.save((error, data) => {
       if (error) {
         return res.status(400).json({
@@ -34,15 +52,18 @@ exports.signup = (req, res) => {
         });
       }
 
-      if (user) {
-        const token = generateJwtToken(user._id, user.role);
-        const { _id, firstName, lastName, email, role, fullName } = user;
+      if (data) {
+        const token = generateJwtToken(data._id, data.role);
+        const { _id, firstName, lastName, email, role, fullName } = data;
         return res.status(201).json({
           token,
           user: { _id, firstName, lastName, email, role, fullName },
         });
+        // return res.status(201).json("user created");
       }
     });
+
+
   });
 };
 
